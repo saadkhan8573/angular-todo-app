@@ -11,7 +11,11 @@ import { TextAreaComponent } from '../../../../components/inputs/text-area';
 import { ErrorMessageComponent } from '../../../../components/inputs/error-message';
 import { FormValidationService } from '../../../../services/form/form-service.service';
 import { Store } from '@ngrx/store';
-import { submitTodoForm, TodoState } from '../../../../store/todo/todo.actions';
+import {
+  submitTodoForm,
+  TodoState,
+  updateTodoForm,
+} from '../../../../store/todo/todo.actions';
 
 const contactSchema = z.object({
   name: z
@@ -48,10 +52,12 @@ export class TodoComponent {
   private store: Store<{ todo: TodoState }> = inject(
     Store<{ todo: TodoState }>
   );
-  formData$ = this.store.select((state) => state.todo.formData);
+  formData$ = this.store.select((state) => state.todo);
 
   // Selectors for reactive state
   public validationService = inject(FormValidationService); // Public for template access
+  editing: boolean = false;
+  editDataId: number = 0;
   contactForm = this.fb.group({
     name: [''],
     email: [''],
@@ -73,6 +79,20 @@ export class TodoComponent {
       contactSchema,
       this.contactForm
     );
+
+    this.formData$.subscribe((val) => {
+      if (val.isEditing) {
+        this.editing = true;
+        this.editDataId = val.editDataId || 0;
+        const contactFormData = val.formData.find(
+          (data) => data.id === val.editDataId
+        );
+        if (contactFormData) {
+          this.contactForm.patchValue(contactFormData);
+        }
+        // this.contactForm.patchValue(val.formData[val.formData.length - 1]);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -80,7 +100,40 @@ export class TodoComponent {
     this.validationService.cleanup();
   }
 
+  onUpdate() {
+    console.log('Update');
+    this.submitError = '';
+    this.isSubmitting = true;
+
+    this.contactForm.markAllAsTouched();
+    const isValid = this.validationService.validateAllFields(
+      contactSchema,
+      this.contactForm
+    );
+
+    if (!isValid) {
+      this.submitError = 'Please fix the errors above before submitting.';
+      this.isSubmitting = false;
+      return;
+    }
+
+    setTimeout(() => {
+      if (isValid) {
+        this.store.dispatch(
+          updateTodoForm({
+            ...this.contactForm.value,
+            id: this.editDataId,
+          } as any)
+        );
+      }
+      this.contactForm.reset();
+      this.isSubmitting = false;
+    }, 1000);
+  }
+
   onSubmit() {
+    console.log('Add');
+
     this.submitError = '';
     this.isSubmitting = true;
 
@@ -97,9 +150,7 @@ export class TodoComponent {
     }
 
     let len = 0;
-    this.formData$.subscribe((val) => (len = val.length + 1));
-
-    this.formData$.subscribe((val) => console.log('Hee aaa', val));
+    this.formData$.subscribe((val) => (len = val.formData.length + 1));
 
     setTimeout(() => {
       if (isValid) {

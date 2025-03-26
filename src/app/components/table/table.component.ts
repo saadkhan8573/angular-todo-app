@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import {
-  ColumnDef,
   createAngularTable,
   FlexRenderDirective,
   getCoreRowModel,
@@ -18,6 +17,7 @@ import {
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class TableComponent {
   @Input({ required: true }) set data(value: any[]) {

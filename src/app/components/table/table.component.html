@@ -30,8 +30,7 @@
                 <td class="px-4 py-3 text-sm">
                     <ng-container *flexRender="cell.column.columnDef.cell;props: cell.getContext(); let rendered">
                         @if (rendered && rendered.component) {
-                        <ng-container *ngComponentOutlet="rendered.component inputs: rendered.props"
-                            class="flex items-center"></ng-container>
+                        <ng-container *ngComponentOutlet="rendered.component; inputs: rendered.props"></ng-container>
                         } @else {
                         <div [innerHTML]="rendered" class="truncate max-w-[250px]"></div>
                         }

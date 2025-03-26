@@ -1,5 +1,5 @@
 <div class="form-container">
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+    <form [formGroup]="contactForm" (ngSubmit)="editing ? onUpdate():onSubmit()" class="contact-form">
         <h2>Contact Us</h2>
 
         <app-text-input [formGroup]="contactForm" controlName="name" label="Full Name" id="name"
@@ -30,7 +30,7 @@
             }
             <div class="w-40 h-12">
                 <app-button [fullHeight]="true" [fullWidth]="true" [submit]="true" [loading]="isSubmitting"
-                    [disabled]="isSubmitting" text="Submit"></app-button>
+                    [disabled]="isSubmitting" [text]="editing ? 'Update' : 'Submit'"></app-button>
             </div>
             <!-- [disabled]="isSubmitting || validationService.hasErrors()" -->
             <!-- <button type="submit" [disabled]="isSubmitting">

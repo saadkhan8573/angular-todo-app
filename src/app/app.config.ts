@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import {
@@ -14,6 +18,9 @@ import {
   provideTanStackQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
+import { NgIconsModule } from '@ng-icons/core';
+import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
+import { featherAirplay } from '@ng-icons/feather-icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,5 +31,8 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(),
     provideTanStackQuery(new QueryClient()),
+    // importProvidersFrom(
+    //   NgIconsModule.withIcons({ heroPencil, heroTrash, featherAirplay }) // Register icons here
+    // ),
   ],
 };

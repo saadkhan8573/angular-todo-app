@@ -1,0 +1,11 @@
+<!-- <ng-icon [name]="iconName" (click)="handleCLick()"></ng-icon> -->
+
+@if (icons) {
+<div class="flex items-center gap-x-2">
+    @for (icon of icons; track icon.iconName) {
+    <ng-icon [size]="icon.size" [name]="icon.iconName" (click)="icon.onIconClick()"></ng-icon>
+    }
+</div>
+} @else{
+<ng-icon [name]="iconName" (click)="onIconClick()"></ng-icon>
+}
