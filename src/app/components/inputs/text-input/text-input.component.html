@@ -1,0 +1,5 @@
+<div class="form-group" [formGroup]="formGroup">
+    <label [for]="id" [class.invalid]="hasError">{{ label }}</label>
+    <input [type]="type" [id]="id" [formControlName]="controlName" [placeholder]="placeholder"
+        [class.invalid]="hasError" (blur)="onBlur()" />
+</div>

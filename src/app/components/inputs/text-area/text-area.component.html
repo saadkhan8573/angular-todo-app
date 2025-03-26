@@ -1,0 +1,5 @@
+<div class="form-group" [formGroup]="formGroup">
+    <label [for]="id">{{ label }}</label>
+    <textarea [id]="id" [formControlName]="controlName" [placeholder]="placeholder" [class.invalid]="hasError"
+        (blur)="onBlur()"></textarea>
+</div>

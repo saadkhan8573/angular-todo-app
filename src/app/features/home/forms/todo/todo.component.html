@@ -1,0 +1,41 @@
+<div class="form-container">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+        <h2>Contact Us</h2>
+
+        <app-text-input [formGroup]="contactForm" controlName="name" label="Full Name" id="name"
+            placeholder="Enter your full name"
+            [hasError]="!!validationService.getDisplayErrors()['name']"></app-text-input>
+        <app-error-message [errorMessage]="validationService.getDisplayErrors()['name']"></app-error-message>
+
+        <app-text-input [formGroup]="contactForm" controlName="email" label="Email" type="email" id="email"
+            placeholder="Enter your email"
+            [hasError]="!!validationService.getDisplayErrors()['email']"></app-text-input>
+        <app-error-message [errorMessage]="validationService.getDisplayErrors()['email']"></app-error-message>
+
+        <app-select [formGroup]="contactForm" controlName="city" [options]="[
+        { id: 1, name: 'New York' },
+        { id: 2, name: 'London' },
+        { id: 3, name: 'Tokyo' },
+      ]" placeholder="Select City"></app-select>
+        <app-error-message [errorMessage]="validationService.getDisplayErrors()['city']"></app-error-message>
+
+        <app-text-area [formGroup]="contactForm" controlName="message" label="Message" id="message"
+            placeholder="Your message here"
+            [hasError]="!!validationService.getDisplayErrors()['message']"></app-text-area>
+        <app-error-message [errorMessage]="validationService.getDisplayErrors()['message']"></app-error-message>
+
+        <div class="submit-section">
+            @if (submitError) {
+            <div class="error-message">{{ submitError }}</div>
+            }
+            <div class="w-40 h-12">
+                <app-button [fullHeight]="true" [fullWidth]="true" [submit]="true" [loading]="isSubmitting"
+                    [disabled]="isSubmitting" text="Submit"></app-button>
+            </div>
+            <!-- [disabled]="isSubmitting || validationService.hasErrors()" -->
+            <!-- <button type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+            </button> -->
+        </div>
+    </form>
+</div>

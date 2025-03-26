@@ -1,0 +1,6 @@
+<div class="form-group" [formGroup]="formGroup">
+    <label [for]="id">{{ label }}</label>
+    <ng-select [items]="options" [formControlName]="controlName" [placeholder]="placeholder" [disabled]="disabled"
+        [loading]="loading" [multiple]="multiple" bindLabel="name" bindValue="id" placeholder="Select city">
+    </ng-select>
+</div>

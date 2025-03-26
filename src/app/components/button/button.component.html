@@ -1,0 +1,18 @@
+<button [type]="submit ? 'submit' : 'button'" [disabled]="disabled" [class]="getButtonClasses()"
+    (click)="onClick($event)">
+    @if (loading) {
+    <div class="flex items-center justify-center">
+        <!-- Note: You'll need to implement your own loading spinner component -->
+        <!-- <div class="spinner"  [style.color]="getLoadingColor()"></div> -->
+        <app-loading [color]="getLoadingColor()"></app-loading>
+    </div>
+    } @else {
+    <div class="flex items-center justify-center gap-x-2">
+        <!-- Icon support would need to be implemented differently in Angular -->
+        <ng-content></ng-content>
+        @if (!mini) {
+        <p>{{ text }}</p>
+        }
+    </div>
+    }
+</button>
