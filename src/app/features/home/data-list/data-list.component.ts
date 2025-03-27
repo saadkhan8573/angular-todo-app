@@ -16,6 +16,7 @@ import {
 import { IconComponent } from '../../../components/icon';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-data-list',
@@ -32,6 +33,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
 })
 export class DataListComponent {
+  private router = inject(Router);
   private store: Store<{ todo: TodoState }> = inject(
     Store<{ todo: TodoState }>
   );
@@ -100,6 +102,7 @@ export class DataListComponent {
 
   handleEdit(row: TodoForm) {
     this.store.dispatch(editTodoForm({ id: row?.id }));
+    this.router.navigate(['/']);
   }
   handleDelete(row: TodoForm) {
     this.store.dispatch(deleteTodoFormData({ id: row?.id }));

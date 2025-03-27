@@ -1,0 +1,49 @@
+<nav class="bg-white shadow-md p-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="flex-shrink-0">
+            <a routerLink="/">
+                <!-- <img src="assets/logo.png" alt="Logo" class="h-10 w-auto"> -->
+                <h1 class="text-2xl font-bold text-blue-500">Logo</h1>
+            </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-6">
+            @if (isLoggedIn) {
+            <a routerLink="/dashboard"
+                class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Dashboard</a>
+            <a routerLink="/profile" class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Profile</a>
+            <a routerLink="/settings"
+                class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Settings</a>
+            <button (click)="logout()"
+                class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Logout</button>
+            } @else {
+            <a routerLink="/" class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Home</a>
+            <a routerLink="/data-list" class="block text-gray-600 hover:text-blue-500 font-medium">Data List</a>
+            <!-- <a routerLink="/services"
+                class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Services</a>
+            <a routerLink="/login" class="text-gray-600 hover:text-blue-500 font-medium transition-colors">Login</a> -->
+            }
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden" (click)="toggleMobileMenu()">Menu</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    @if (showMobileMenu) {
+    <div class="md:hidden mt-4 space-y-2">
+        @if (isLoggedIn) {
+        <a routerLink="/dashboard" class="block text-gray-600 hover:text-blue-500 font-medium">Dashboard</a>
+        <a routerLink="/profile" class="block text-gray-600 hover:text-blue-500 font-medium">Profile</a>
+        <a routerLink="/settings" class="block text-gray-600 hover:text-blue-500 font-medium">Settings</a>
+        <button (click)="logout()" class="block text-gray-600 hover:text-blue-500 font-medium">Logout</button>
+        } @else {
+        <a routerLink="/" class="block text-gray-600 hover:text-blue-500 font-medium">Home</a>
+        <a routerLink="/data-list" class="block text-gray-600 hover:text-blue-500 font-medium">Data List</a>
+        <!-- <a routerLink="/services" class="block text-gray-600 hover:text-blue-500 font-medium">Services</a>
+        <a routerLink="/login" class="block text-gray-600 hover:text-blue-500 font-medium">Login</a> -->
+        }
+    </div>
+    }
+</nav>

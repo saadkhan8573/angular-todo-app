@@ -1,16 +1,17 @@
-import { z } from 'zod';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { z } from 'zod';
 import {
   ButtonComponent,
   SelectComponent,
   TextInputComponent,
 } from '../../../../components';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { TextAreaComponent } from '../../../../components/inputs/text-area';
 import { ErrorMessageComponent } from '../../../../components/inputs/error-message';
+import { TextAreaComponent } from '../../../../components/inputs/text-area';
 import { FormValidationService } from '../../../../services/form/form-service.service';
-import { Store } from '@ngrx/store';
 import {
   submitTodoForm,
   TodoState,
@@ -34,6 +35,7 @@ const contactSchema = z.object({
 
 @Component({
   selector: 'app-todo',
+  standalone: true,
   imports: [
     CommonModule,
     SelectComponent,
@@ -47,6 +49,7 @@ const contactSchema = z.object({
   styleUrl: './todo.component.css',
 })
 export class TodoComponent {
+  private router = inject(Router);
   private fb = inject(FormBuilder);
 
   private store: Store<{ todo: TodoState }> = inject(
@@ -81,17 +84,15 @@ export class TodoComponent {
     );
 
     this.formData$.subscribe((val) => {
-      if (val.isEditing) {
-        this.editing = true;
-        this.editDataId = val.editDataId || 0;
-        const contactFormData = val.formData.find(
-          (data) => data.id === val.editDataId
-        );
-        if (contactFormData) {
-          this.contactForm.patchValue(contactFormData);
-        }
-        // this.contactForm.patchValue(val.formData[val.formData.length - 1]);
+      this.editing = val.isEditing || false;
+      this.editDataId = val.editDataId || 0;
+      const contactFormData = val.formData.find(
+        (data) => data.id === val.editDataId
+      );
+      if (contactFormData) {
+        this.contactForm.patchValue(contactFormData);
       }
+      // this.contactForm.patchValue(val.formData[val.formData.length - 1]);
     });
   }
 
@@ -128,6 +129,7 @@ export class TodoComponent {
       }
       this.contactForm.reset();
       this.isSubmitting = false;
+      this.router.navigate(['/data-list']);
     }, 1000);
   }
 
@@ -163,6 +165,7 @@ export class TodoComponent {
       }
       this.contactForm.reset();
       this.isSubmitting = false;
+      this.router.navigate(['/data-list']);
     }, 1000);
   }
 }
